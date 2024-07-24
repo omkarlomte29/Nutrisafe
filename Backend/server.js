@@ -8,7 +8,8 @@ const path = require('path');
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // For parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); 
 
 // Configure multer for file uploads
 const storage = multer.memoryStorage(); // Store file in memory
@@ -114,6 +115,28 @@ app.get('/api/getRestaurants', (req, res) => {
     });
 
     res.json({ success: true, data: modifiedResults });
+  });
+});
+
+app.post('/api/updateUser', (req, res) => {
+  const { name, age, email, gender, country, city, pincode, contact, address } = req.body;
+  console.log(req.body)
+  if (!name || !age || !email || !gender || !country || !city || !pincode || !contact || !address) {
+    return res.status(400).json({ success: false, message: 'All fields are required' });
+  }
+
+  const sql = `UPDATE users SET name = ?, age = ?, gender = ?, country = ?, city = ?, pincode = ?, contact = ?, address = ? WHERE email = ?`;
+  db.query(sql, [name, age, gender, country, city, pincode, contact, address, email], (err, result) => {
+    if (err) {
+      console.error('Error updating user details:', err);
+      return res.status(500).json({ success: false, message: 'Database error' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.json({ success: true, message: 'User details updated successfully' });
   });
 });
 

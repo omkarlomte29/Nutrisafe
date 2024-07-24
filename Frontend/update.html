@@ -67,7 +67,6 @@
             padding-left: 10px;
             padding-top: 20px;
             font-size: 12px;
-           
         }
 
         .form-outline input[type="text"]:focus,
@@ -151,7 +150,7 @@
                         User
                     </a>
                     <ul class="dropdown-menu" >
-                        <li><a class="dropdown-item" href="#" style="color: red; font-size: 12px;">LogOut</a></li>
+                        <li><a class="dropdown-item" href="login.html" style="color: red; font-size: 12px;">LogOut</a></li>
                         <li><a class="dropdown-item" href="update.html" style="font-size: 12px;">Update Info</a></li>
                         <li><a class="dropdown-item" href="add.html" style="font-size: 12px;">ADD</a></li>
                     </ul>
@@ -183,13 +182,12 @@
     <!-- update-info -->
     <section class="p-3 p-md-4 p-xl-5">
         <div class="form-container">
-            <form id="userForm">
-                <!-- Name and Age -->
+            <form id="updateForm">
                 <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
-                            <input type="text" id="firstName" name="firstName" class="form-control" required />
-                            <label class="form-label" for="firstName">First Name</label>
+                            <input type="text" id="name" name="name" class="form-control" required />
+                            <label class="form-label" for="name">Name</label>
                         </div>
                     </div>
                     <div class="col">
@@ -200,7 +198,6 @@
                     </div>
                 </div>
 
-                <!-- Email and Gender -->
                 <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
@@ -218,7 +215,6 @@
                     </div>
                 </div>
 
-                <!-- Country, City, and Pincode -->
                 <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
@@ -240,29 +236,24 @@
                     </div>
                 </div>
 
-                <!-- Phone -->
                 <div class="row mb-4">
                     <div class="col">
                         <div class="form-outline">
-                            <input type="tel" id="phone" name="phone" class="form-control" required />
-                            <label class="form-label" for="phone">Phone</label>
+                            <input type="tel" id="contact" name="contact" class="form-control" required />
+                            <label class="form-label" for="contact">Contact</label>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bio -->
                 <div class="form-outline mb-4">
-                    <textarea id="bio" name="bio" class="form-control" rows="3" required></textarea>
-                    <label class="form-label" for="bio">Bio</label>
+                    <textarea id="address" name="address" class="form-control" rows="3" required></textarea>
+                    <label class="form-label" for="address">Address</label>
                 </div>
+
                 <div style="display: flex; justify-content: center;">
-                    <button type="submit" class="btn btn-block mb-3"
-                        style="background-color: #629f0d;color: white; width:fit-content;">SUBMIT</button>
+                    <button type="submit" class="btn btn-block mb-3" style="background-color: #629f0d; color: white; width: fit-content;">Update</button>
                 </div>
-                <!-- Submit button -->
-
             </form>
-
         </div>
     </section>
 
@@ -358,13 +349,48 @@
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript"></script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#updateForm').on('submit', function (e) {
+                e.preventDefault();
+                
+                const formData = {
+                    name: $('#name').val(),
+                    age: $('#age').val(),
+                    email: $('#email').val(),
+                    gender: $('#gender').val(),
+                    country: $('#country').val(),
+                    city: $('#city').val(),
+                    pincode: $('#pincode').val(),
+                    contact: $('#contact').val(),
+                    address: $('#address').val()
+                };
+                console.log(formData)
 
-
+                $.ajax({
+                    url: 'http://localhost:3000/api/updateUser', // Change port if necessary
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function (response) {
+                        if (response.success) {
+                            alert('User details updated successfully');
+                            // Optionally, redirect or clear the form
+                        } else {
+                            alert('Update failed: ' + response.message);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('An error occurred: ' + xhr.responseText);
+                    }
+                });
+                
+            });
+        });
     </script>
-
-    
 </body>
 
 </html>
