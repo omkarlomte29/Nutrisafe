@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>ADD-DB</title>
+    <title>ADD Restaurant</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -195,12 +195,10 @@
                     <p>Navigating a world of choices, we're here to guide you through the
                         aisles of safe
                         and delightful options.</p>
-
                     <div style="display: flex; align-items: center; margin-top: 20px;">
                         <img src="images/logo.png" alt="Logo" style="width: 100px; height: auto;">
                         <span style="font-size: 24px; margin-left: 10px;">NUTRISAFE</span>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -210,46 +208,41 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3 button-container">
-                <!-- Button to toggle Shop Form -->
-                <button class="btn btn-black py-2 px-5" style="margin-bottom: 15px;"
-                    onclick="toggleForm('shopForm')">Add Shop</button>
-                <!-- Button to toggle Menu Form -->
-                <button class="btn btn-black py-2 px-5" style="margin-bottom: 15px;"
-                    onclick="toggleForm('menuForm')">Add Menu</button>
+                <button class="btn btn-black py-2 px-5" style="margin-bottom: 15px;" onclick="toggleForm('shopForm')">Add Restaurant</button>
+                <button class="btn btn-black py-2 px-5" style="margin-bottom: 15px;" onclick="toggleForm('menuForm')">Add Menu</button>
             </div>
-            <!-- Shop Form -->
             <div class="col-md-6 form-container" id="shopForm" style="display: none;">
-
-                <form class="justify-content-end">
+                <form class="justify-content-end" id="shopFormElement" onsubmit="submitShopForm(event)">
                     <div class="form-group">
                         <label for="shopName">Shop Name:</label>
-                        <input type="text" class="form-control" id="shopName" placeholder="Enter shop name">
+                        <input type="text" class="form-control" id="shopName" placeholder="Enter shop name" required>
                     </div>
                     <div class="form-group">
                         <label for="shopAddress">Shop Address:</label>
-                        <input type="text" class="form-control" id="shopAddress" placeholder="Enter shop address">
+                        <input type="text" class="form-control" id="shopAddress" placeholder="Enter shop address" required>
                     </div>
                     <div class="form-group">
-                        <label for="shopOpens">Shop opens:</label>
-                        <input type="text" class="form-control" id="shopOpens" placeholder="Enter shop opens">
+                        <label for="shopOpens">Shop Opens Time:</label>
+                        <input type="text" class="form-control" id="shopOpens" placeholder="Enter shop opens time" required>
                     </div>
                     <div class="form-group">
-                        <label for="shopNumber">Shop Number:</label>
-                        <input type="text" class="form-control" id="shopNumber" placeholder="Enter shop number">
+                        <label for="shopClose">Shop Close Time:</label>
+                        <input type="text" class="form-control" id="shopClose" placeholder="Enter shop close time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shopContact">Shop Contact:</label>
+                        <input type="text" class="form-control" id="shopContact" placeholder="Enter shop contact" required>
                     </div>
                     <div class="form-group">
                         <label for="shopImage">Shop Image:</label>
-                        <input type="file" class="form-control-file" id="shopImage" name="shopImage" accept="image/*"
-                            required>
+                        <input type="file" class="form-control-file" id="shopImage" name="shopImage" accept="image/*" required>
                     </div>
                     <div class="form-group center-submit">
                         <button type="submit" class="btn btn-primary" style="margin-bottom: 30px;">Submit</button>
                     </div>
                 </form>
             </div>
-            <!-- Menu Form -->
             <div class="col-md-6 form-container" id="menuForm" style="display: none;">
-
                 <form class="justify-content-end">
                     <div class="form-group">
                         <label for="foodType">Food Type:</label>
@@ -267,7 +260,7 @@
                         <input type="text" class="form-control" id="itemPrice" placeholder="Enter item price">
                     </div>
                     <div class="form-group">
-                        <label for="itemPrice">Item Category:</label>
+                        <label for="itemCategory">Item Category:</label>
                         <input type="text" class="form-control" id="itemCategory" placeholder="Enter item Category">
                     </div>
                     <div class="form-group">
@@ -279,10 +272,8 @@
                     </div>
                     <div class="form-group">
                         <label for="foodImage">Shop Image:</label>
-                        <input type="file" class="form-control-file" id="foodImage" name="foodImage" accept="image/*"
-                            required>
+                        <input type="file" class="form-control-file" id="foodImage" name="foodImage" accept="image/*" required>
                     </div>
-
                     <div class="form-group center-submit">
                         <button type="submit" class="btn btn-primary" style="margin-bottom: 30px;">Submit</button>
                     </div>
@@ -353,7 +344,7 @@
                     </div>
                 </div>
             </div>
-
+        </div>
         </div>
     </footer>
     <script src="js/jquery.min.js"></script>
@@ -369,8 +360,7 @@
     <script src="js/jquery.animateNumber.min.js"></script>
     <script src="js/bootstrap-datepicker.js"></script>
     <script src="js/scrollax.min.js"></script>
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
     <script src="js/google-map.js"></script>
     <script src="js/main.js"></script>
 
@@ -385,7 +375,48 @@
                 }
             });
         }
-
+    
+        function submitShopForm(event) {
+            event.preventDefault(); // Prevent the default form submission
+        
+            // Collect form data
+            const shopName = document.getElementById('shopName').value;
+            const shopAddress = document.getElementById('shopAddress').value;
+            const shopOpens = document.getElementById('shopOpens').value;
+            const shopClose = document.getElementById('shopClose').value;
+            const shopContact = document.getElementById('shopContact').value;
+            const shopImage = document.getElementById('shopImage').files[0]; // Assuming single file upload
+        
+            // Create FormData object to handle file upload
+            const formData = new FormData();
+            formData.append('shopName', shopName);
+            formData.append('shopAddress', shopAddress);
+            formData.append('shopOpens', shopOpens);
+            formData.append('shopClose', shopClose);
+            formData.append('shopContact', shopContact);
+            formData.append('shopImage', shopImage);
+        
+            // Send data to the backend using fetch
+            fetch('http://localhost:3000/api/addRestaurant', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Shop added successfully!');
+                    // Optionally clear the form
+                    document.getElementById('shopFormElement').reset();
+                } else {
+                    alert('Failed to add shop: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+        
     </script>
 </body>
 
